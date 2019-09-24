@@ -1,0 +1,7 @@
+/.vscode
+/src/static_cdn
+/.git
+/src/ecommerce/db.sqlite3
+/Lib
+/Include
+/tcl

@@ -26,6 +26,12 @@
 			<th scope="row" colspan="2">Total</th>
 			<td>${{cart.total}}</td>
 		</tr>
+		<tr>
+			<th scope="row" colspan="2"></th>
+			<td>
+				<a class="btn btn-lg btn-success" href="{% url 'cart:checkout' %}">Checkout</a>
+			</td>
+		</tr>
 
 	</tbody>
 </table>

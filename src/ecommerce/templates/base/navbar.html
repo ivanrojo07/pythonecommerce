@@ -39,7 +39,7 @@
     </li>
     {% endif %}
     <li class="nav-item {% if request.path == cart_url %} active {% endif %} ">
-        <a href="{{cart_url}}" class="nav-link">{{request.session.cart_items}} <i class="fas fa-shopping-cart"></i></a>
+        <a href="{{cart_url}}" class="nav-link"><span id="navbar-cart-count">{{request.session.cart_items}}</span> <i class="fas fa-shopping-cart"></i></a>
     </li>
     </ul>
     {% include 'search/snippets/search-form.html' %}

@@ -1,4 +1,4 @@
-{% load static %}
+ {% load static %}
 <!doctype html>
 <html lang="en">
 
@@ -66,7 +66,9 @@
                 var cartTable = $(".cart-table");
                 var cartBody = cartTable.find(".cart-body");
 
-                var productRows = cartBody.find(".cart-products")
+                var productRows = cartBody.find(".cart-product")
+                var currentUrl = window.location.href
+
                 // productRows.html("")
                 // cartBody.html("<h1>Changed</h1>");
 
@@ -79,11 +81,25 @@
                     method:refreshCartMethod,
                     data:data,
                     success: function(data){
+                        var hiddenCartItemRemoveForm = $(".cart-item-remove-form")
                         console.log("success");
                         if (data.products.length > 0) {
-                            productRows.html("<tr><td colspan=3>Coming Soon</td></tr>");
+                            productRows.html("");
+                            i = data.products.length
+                            $.each(data.products, function(index, value){
+                                var newCartItemRemove = hiddenCartItemRemoveForm.clone()
+                                newCartItemRemove.css("display","block")
+                                // newCartItemRemove.removeClass("hidden-class")
+                                newCartItemRemove.find(".cart-item-product-id").val(value.id)
+                                cartBody.prepend("<tr><th scope=\"row\">"+ i +"</th><td><a href='"+value.url+"''>"+
+                                    value.name+"</a>"+newCartItemRemove.html()+"</td><td>"+value.price+"</td></tr>")
+                                i--
+                            })
                             cartBody.find("#cart-subtotal").text(data.subtotal);
                             cartBody.find("#cart-total").text(data.total);
+                        }
+                        else{
+                            window.location.href = currentUrl
                         }
                         console.log(data)
                     },

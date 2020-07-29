@@ -15,7 +15,14 @@ from orders.models import Order
 
 def cart_detail_api_view(request):
 	cart_obj, new_obj = Cart.objects.new_or_get(request)
-	products = [{"name":x.name, "price":x.price} for x in cart_obj.products.all()]
+	# creamos un arreglo con nombre y precio por el recorrido del diccionario
+	products = [{
+		"name":x.name, 
+		"price":x.price,
+		"url": x.get_absolute_url(),
+		"id" : x.id
+		} 
+		for x in cart_obj.products.all()]
 	cart_data = {"products":products, "subtotal": cart_obj.subtotal, "total": cart_obj.total}
 	return JsonResponse(cart_data)
 

@@ -23,6 +23,31 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
+            // auto search
+            var  searchForm = $(".search-form")
+            var searchInput = searchForm.find("[name='q']") //input name="q"
+            var typingTimer;
+            var typingInterval=500 //.5 segundos
+            var searchBtn = searchForm.find("[type='submit']")
+
+            searchInput.keyup(function(event){
+                clearTimeout(typingTimer)
+                searchBtn.addClass('disabled')
+                searchBtn.html("<i class='fas fa-spin fa-spinner'></i> Buscando...")
+               typingTimer = setTimeout(perfomSearch,typingInterval)
+            })
+
+            searchInput.keydown(function(event){
+                clearTimeout(typingTimer)
+            })
+
+            function perfomSearch(){
+                
+                var query = searchInput.val()
+                window.location.href="/search/?q="+query
+            }
+
+            // agregar, quitar productos
             var productForm = $(".form-product-ajax");
             productForm.submit(function(e){
                 e.preventDefault();
@@ -97,6 +122,7 @@
                             })
                             cartBody.find("#cart-subtotal").text(data.subtotal);
                             cartBody.find("#cart-total").text(data.total);
+                            window.location.href = currentUrl
                         }
                         else{
                             window.location.href = currentUrl

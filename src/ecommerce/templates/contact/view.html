@@ -3,11 +3,17 @@
 {% block content %}
 <h1>{{title}} a todos!</h1>
 <div class="container">
-    {{content}}
-    <form method="POST" class="row-form">
-        {% csrf_token %}
-        {{form}}
-        <button class="btn btn-primary" type="submit">Guardar</button>
-    </form>
+    <div class="row">
+        <div class="col">
+            <p>{{content}}</p>
+            <div class="col-md-6 col-12 mx-auto">
+                <form method="POST" class="contact-form row-form" action='{% url "contact" %}'>
+                    {% csrf_token %}
+                    {{form}}
+                    <button class="btn btn-primary" type="submit">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

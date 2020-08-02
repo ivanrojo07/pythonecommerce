@@ -1,12 +1,12 @@
 <form method="POST" action="{% if action_url %}{{ action_url }}{% else %}{% url 'login' %}{% endif %}" class="row-form">
-    {% csrf_token %}
+  {% csrf_token %}
 
-    {% if next_url %}
+  {% if next_url %}
 
-		<input type="hidden" name="next" value="{{next_url}}"/>
+  <input type="hidden" name="next" value="{{next_url}}"/>
 
-    {% endif %}
+  {% endif %}
 
-    {{form}}
-    <button class="btn btn-primary" type="submit">Entrar</button>
+  {{form}}
+  <button class="btn btn-primary" type="submit">Entrar</button>
 </form>

@@ -1,5 +1,3 @@
- 
-
 from django.urls import path
 
 from .views import (
@@ -16,4 +14,3 @@ urlpatterns = [
     path('checkout/success/', checkout_done_view, name="success"),
     path('cart_update/',cart_update, name='update')
 ]
-

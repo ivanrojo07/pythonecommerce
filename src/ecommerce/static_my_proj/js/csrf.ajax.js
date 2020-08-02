@@ -1,10 +1,11 @@
 $(document).ready(function(){
+    // using jQuery
     function getCookie(name) {
-        let cookieValue = null;
+        var cookieValue = null;
         if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
                 // Does this cookie string begin with the name we want?
                 if (cookie.substring(0, name.length + 1) === (name + '=')) {
                     cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
@@ -14,8 +15,8 @@ $(document).ready(function(){
         }
         return cookieValue;
     }
-    const csrftoken = getCookie('csrftoken');
-    
+    var csrftoken = getCookie('csrftoken');
+
     function csrfSafeMethod(method) {
         // these HTTP methods do not require CSRF protection
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
@@ -27,4 +28,5 @@ $(document).ready(function(){
             }
         }
     });
+
 })

@@ -25,6 +25,8 @@ from addresses.views import checkout_address_create_view, checkout_address_reuse
 
 from carts.views import cart_detail_api_view, cart_home
 
+from billing.views import payment_method_view, payment_method_createview
+
 from .views import home_page,about_page,contact_page#,login_page,register_page
 from django.views.generic import TemplateView
 
@@ -51,6 +53,9 @@ urlpatterns = [
 
     path('checkout/address/create/', checkout_address_create_view, name="checkout_address_create"),
     path('checkout/address/reuse/', checkout_address_reuse_view, name="checkout_address_reuse"),
+
+    path('billing/payment-method', payment_method_view, name="billing-payment-method"),
+    path('billing/payment-method/create', payment_method_createview, name="billing-payment-method-endpoint"),
 
     # path('cart/',cart_home, name="cart"),
     path('cart/', include('carts.urls', namespace='cart')),

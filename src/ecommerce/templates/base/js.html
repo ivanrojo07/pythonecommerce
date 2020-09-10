@@ -18,3 +18,11 @@ slim is missing ajax -->
 
 <!-- eCommerce Custom JS -->
 <script src='{% static "js/ecommerce.js" %}'></script>
+
+<!-- JS Render -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.7/jsrender.min.js "></script>
+{% include 'base/js_templates.html' %}
+
+<!-- Stripe JS -->
+<script src="{% static 'js/ecommerce.main.js' %}"></script>
+<script src="https://js.stripe.com/v3/"></script>

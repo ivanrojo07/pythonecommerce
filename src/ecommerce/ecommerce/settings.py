@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'billing',
     'addresses',
     'analytics',
+    'marketing'
 
 ]
 
@@ -56,6 +57,9 @@ FORCE_INACTIVE_USER_ENDSESSION = False
 STRIPE_SECRET_KEY = "sk_test_vAfJFRZxg6fkoVl9i8JuWLSB00EtyZSflC"
 STRIPE_PUB_KEY = 'pk_test_ER5kn9tZut76yc1BJOuN3cYG00IByD0QYx'
 
+MAILCHIMP_API_KEY = "c32799ff17e013f6c9d33e96321a281d-us2"
+MAILCHIMP_DATA_CENTER = "us2"
+MAILCHIMP_EMAIL_AUDIENCE_ID = "42748f0fee"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -26,7 +26,7 @@ from addresses.views import checkout_address_create_view, checkout_address_reuse
 from carts.views import cart_detail_api_view, cart_home
 
 from billing.views import payment_method_view, payment_method_createview
-from marketing.views import MarketingPreferencesUpdateView
+from marketing.views import MarketingPreferencesUpdateView, MailchimpWebhookView
 
 from .views import home_page,about_page,contact_page#,login_page,register_page
 from django.views.generic import TemplateView
@@ -71,6 +71,7 @@ urlpatterns = [
     # path('featured/<int:pk>/',ProductFeaturedDetailView.as_view()),
     # path('products/<slug:slug>/',ProductDetailSlugView.as_view())
     path('settings/email/',MarketingPreferencesUpdateView.as_view(), name="marketing-pref"),
+    path('webhooks/mailchimp/',MailchimpWebhookView.as_view(), name="webhooks-mailchimp"),
 ]
 
 if settings.DEBUG:

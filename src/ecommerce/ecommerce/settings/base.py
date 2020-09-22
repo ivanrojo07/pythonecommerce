@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 # Quick-start development settings - unsuitable for production
@@ -23,6 +23,21 @@ SECRET_KEY = '+=%rc3l489d%cbndhz@3ub42%*0mtau3hgmiod$pq1stokkso='
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+# EMAIL
+EMAIL_HOST = ""
+EMAIL_HOST_USER = ""
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD",'yourpassword')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = "Python ecommerce <ivanrojo07@gmail.com>"
+BASE_URL = '127.0.0.1:8000'
+
+MANAGERS = (
+    ("Iván Rojo", "ivanrojo07@gmail.com"),
+)
+
+ADMINS = MANAGERS
 
 
 # Application definition
@@ -49,6 +64,9 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL='accounts.User'
+LOGIN_URL = '/login/'
+LOGIN_URL_REDIRECT = '/'
+LOGOUT_URL = '/logout/'
 
 
 FORCE_SESSION_TO_ONE = False

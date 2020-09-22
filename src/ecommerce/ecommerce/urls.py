@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.contrib.auth.views import LogoutView
 from django.urls import include, path
 
-from accounts.views import LoginView, RegisterView, guest_register_view
+from accounts.views import LoginView, RegisterView, guest_register_view, account_home_view
 
 from addresses.views import checkout_address_create_view, checkout_address_reuse_view
 
@@ -29,7 +29,7 @@ from billing.views import payment_method_view, payment_method_createview
 from marketing.views import MarketingPreferencesUpdateView, MailchimpWebhookView
 
 from .views import home_page,about_page,contact_page#,login_page,register_page
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 
 # from products.views import (
 #                     ProductListView, 
@@ -72,6 +72,10 @@ urlpatterns = [
     # path('products/<slug:slug>/',ProductDetailSlugView.as_view())
     path('settings/email/',MarketingPreferencesUpdateView.as_view(), name="marketing-pref"),
     path('webhooks/mailchimp/',MailchimpWebhookView.as_view(), name="webhooks-mailchimp"),
+    path('account/',include('accounts.urls', namespace="accounts")),
+    path('accounts/', RedirectView.as_view(url="/account")),
+    path('account/password', include('accounts.passwords.urls', namespace="accounts-password")),
+    path('settings/', RedirectView.as_view(url="/account")),
 ]
 
 if settings.DEBUG:

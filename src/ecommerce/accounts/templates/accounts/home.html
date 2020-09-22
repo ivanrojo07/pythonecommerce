@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+    {{ request.user }}
+    <div class="row">
+        <div class="col-12">
+            <h1>Account</h1>
+            <hr>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+                        Support
+                    </div>
+                    <div class="list-group">
+                        <a class="list-group-item" href="{% url 'about' %}">About</a>
+                        <a class="list-group-item" href="{% url 'contact' %}">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-12 col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+                        Billing
+                    </div>
+                    <div class="list-group">
+                        <a class="list-group-item" href="{% url 'about' %}">Adresses</a>
+                        <a class="list-group-item" href="{% url 'billing-payment-method' %}">Payment Methods</a>
+                        <a class="list-group-item" href="{% url 'contact' %}">Orders</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+                        Account Details
+                    </div>
+                    <div class="list-group">
+                        <a class="list-group-item" href="{% url 'about' %}">Name</a>
+                        <a class="list-group-item" href="{% url 'marketing-pref' %}">Reset Password</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-12 col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+                        Preferences
+                    </div>
+                    <div class="list-group">
+                        <a class="list-group-item" href="{% url 'marketing-pref' %}">Email Marketing</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-12 col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+                        History
+                    </div>
+                    <div class="list-group">
+                        <a class="list-group-item" href="{% url 'marketing-pref' %}">Products Viewed</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

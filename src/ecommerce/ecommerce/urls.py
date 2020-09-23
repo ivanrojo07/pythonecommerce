@@ -76,6 +76,7 @@ urlpatterns = [
     path('accounts/', RedirectView.as_view(url="/account")),
     path('account/password', include('accounts.passwords.urls', namespace="accounts-password")),
     path('settings/', RedirectView.as_view(url="/account")),
+    path('orders/',include('orders.urls', namespace="orders"))
 ]
 
 if settings.DEBUG:

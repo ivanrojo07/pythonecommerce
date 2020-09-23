@@ -27,9 +27,9 @@
                         Billing
                     </div>
                     <div class="list-group">
-                        <a class="list-group-item" href="{% url 'about' %}">Adresses</a>
+                        {% comment %} <a class="list-group-item" href="{% url 'about' %}">Adresses</a> {% endcomment %}
                         <a class="list-group-item" href="{% url 'billing-payment-method' %}">Payment Methods</a>
-                        <a class="list-group-item" href="{% url 'contact' %}">Orders</a>
+                        <a class="list-group-item" href="{% url 'orders:list' %}">Orders</a>
                     </div>
                 </div>
             </div>
@@ -42,8 +42,7 @@
                         Account Details
                     </div>
                     <div class="list-group">
-                        <a class="list-group-item" href="{% url 'about' %}">Name</a>
-                        <a class="list-group-item" href="{% url 'marketing-pref' %}">Reset Password</a>
+                        <a class="list-group-item" href="{% url 'accounts-password:password_change' %}">Reset Password</a>
                     </div>
                 </div>
             </div>
@@ -69,7 +68,7 @@
                         History
                     </div>
                     <div class="list-group">
-                        <a class="list-group-item" href="{% url 'marketing-pref' %}">Products Viewed</a>
+                        <a class="list-group-item" href="{% url 'accounts:history-product' %}">Products Viewed</a>
                     </div>
                 </div>
             </div>

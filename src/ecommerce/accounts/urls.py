@@ -5,12 +5,15 @@ from .views import (
         # UserDetailUpdateView
         )
 
+from products.views import UserProductHistoryView
+
 app_name = "accounts"
 
 urlpatterns = [
     path("", AccountHomeView.as_view(), name='home'),
     re_path(r'^email/confirm/(?P<key>[0-9A-Za-z]+)/$', AccountEmailActivateView.as_view(), name="email-activate"),
-    path("email/resend-activation/", AccountEmailActivateView.as_view(), name="resend-activation")
+    path("email/resend-activation/", AccountEmailActivateView.as_view(), name="resend-activation"),
+    path('history/product/', UserProductHistoryView.as_view(), name="history-product"),
 #     url(r'^details/$', UserDetailUpdateView.as_view(), name='user-update'),
 #     url(r'^email/confirm/(?P<key>[0-9A-Za-z]+)/$', 
         #     AccountEmailActivateView.as_view(), 

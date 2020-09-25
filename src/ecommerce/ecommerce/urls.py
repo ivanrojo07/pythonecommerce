@@ -27,6 +27,7 @@ from carts.views import cart_detail_api_view, cart_home
 
 from billing.views import payment_method_view, payment_method_createview
 from marketing.views import MarketingPreferencesUpdateView, MailchimpWebhookView
+from orders.views import LibraryView
 
 from .views import home_page,about_page,contact_page#,login_page,register_page
 from django.views.generic import TemplateView, RedirectView
@@ -76,7 +77,8 @@ urlpatterns = [
     path('accounts/', RedirectView.as_view(url="/account")),
     path('account/password', include('accounts.passwords.urls', namespace="accounts-password")),
     path('settings/', RedirectView.as_view(url="/account")),
-    path('orders/',include('orders.urls', namespace="orders"))
+    path('orders/',include('orders.urls', namespace="orders")),
+    path('library/', LibraryView.as_view(), name="library"),
 ]
 
 if settings.DEBUG:

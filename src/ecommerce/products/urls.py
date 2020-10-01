@@ -1,5 +1,5 @@
 
-from django.urls import path
+from django.urls import path, re_path
 
 from .views import (
                     ProductListView, 
@@ -8,7 +8,8 @@ from .views import (
                     # product_detail_view,
                     # ProductFeaturedListView,
                     # ProductFeaturedDetailView,
-                    ProductDetailSlugView)
+                    ProductDetailSlugView,
+                    ProductDownloadView)
 
 app_name = "products"
 urlpatterns = [
@@ -20,5 +21,6 @@ urlpatterns = [
     # path('featured/',ProductFeaturedListView.as_view()),
     # path('featured/<int:pk>/',ProductFeaturedDetailView.as_view()),
     # path('products/<slug:slug>/',ProductDetailSlugView.as_view())
-    path('<slug:slug>/',ProductDetailSlugView.as_view(), name='detail')
+    path('<slug:slug>/',ProductDetailSlugView.as_view(), name='detail'),
+    re_path('^(?P<slug>[\w-]+)/(?P<pk>\d+)/$', ProductDownloadView.as_view(), name="download")
 ]

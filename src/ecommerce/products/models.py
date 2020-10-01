@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.db.models.signals import pre_save, post_save
 from django.urls import reverse
 
-from ecommerce.utils import unique_slug_generator
+from ecommerce.utils import unique_slug_generator, get_filename
 
 def get_filename_ext(filepath):
     base_name = os.path.basename(filepath)
@@ -89,6 +89,10 @@ class Product(models.Model):
     def name(self):
         return self.title
 
+    def get_downloads(self):
+        qs = self.productfile_set.all()
+        return qs
+
 
 def product_pre_save_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
@@ -111,7 +115,21 @@ class ProductFile(models.Model):
         storage=FileSystemStorage(location=settings.PROTECTED_ROOT)
         )
 
+    free = models.BooleanField(default=False)
+    user_required = models.BooleanField(default=False)
+    
+
 
 
     def __str__(self):
         return str(self.file.name)
+
+    def get_default_url(self):
+        return self.product.get_absolute_url()
+
+    def get_download_url(self):
+        return reverse("products:download", kwargs={"slug": self.product.slug, "pk": self.pk})
+
+    @property
+    def name(self):
+        return get_filename(self.file.name)

@@ -9,6 +9,7 @@ from ecommerce.utils import unique_order_id_generator
 from django.urls import reverse
 from products.models import Product
 from django.conf import settings
+from django.db.models import Count, Sum, Avg
 
 ORDER_STATUS_CHOICES = (
     ('created', 'Created'),
@@ -18,6 +19,26 @@ ORDER_STATUS_CHOICES = (
 )
 
 class OrderManagerQuerySet(models.query.QuerySet):
+    def recent(self):
+        return self.order_by("-updated","-timestamp")
+
+    def totals_data(self):
+        return self.aggregate(Sum("total"),Avg("total"))
+
+    def cart_data(self):
+        return self.aggregate(
+            Sum("cart__products__price"),
+            Avg("cart__products__price"),
+            Count("cart__products")
+        )
+
+    def not_refunded(self):
+        return self.exclude(status="refunded")
+    
+    def by_status(self, status="shipped"):
+        return self.filter(status=status)
+
+
     def by_request(self, request):
         billing_profile,created = BillingProfile.objects.new_or_get(request)
         return self.filter(billing_profile=billing_profile)
@@ -188,6 +209,13 @@ class ProductPurchaseManager(models.Manager):
     
     def by_request(self, request):
         return self.get_queryset().by_request(request)
+
+
+    def product_by_id(self, request):
+        qs = self.by_request(request).digital()
+        ids_ = [x.product.id for x in qs]
+        return ids_
+
 
     def product_by_request(self,request):
         qs = self.by_request(request).digital()

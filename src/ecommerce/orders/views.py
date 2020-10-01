@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import Http404
+from django.http import Http404, JsonResponse
 # Create your views here.
 # from billing.models import BillingProfile
 from .models import Order, ProductPurchase
@@ -28,3 +28,16 @@ class LibraryView(LoginRequiredMixin,ListView):
     def get_queryset(self):
         return ProductPurchase.objects.product_by_request(self.request)
         # return ProductPurchase.objects.by_request(self.request).digital()
+
+class VerifyOwnership(View):
+    def get(self, request, *args, **kwargs):
+        if request.is_ajax():
+            data = self.request.GET
+            product_id = request.GET.get('product_id')
+            if product_id is not None:
+                product_id = int(product_id)
+            ownership_ids = ProductPurchase.objects.product_by_id(request)
+            if product_id in ownership_ids:
+                return JsonResponse({'owner':True})
+            return JsonResponse({'owner':False})
+        raise Http404

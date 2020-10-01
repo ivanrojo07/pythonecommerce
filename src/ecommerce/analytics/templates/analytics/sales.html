@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-12">
+        <h1>Sales Data</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <h3>Recent (Total: ${{recent_orders_data.total__sum}})</h3>
+        <ol>
+        {% for order in recent_orders %}
+            <li>{{order.order_id}}
+            {{order.total}}
+            {{order.updated}}</li>
+        {% endfor %}
+        </ol>
+    </div>
+
+    <div class="col">
+        <h3>Shipped (Total: ${{shipped_orders_data.total__sum}})</h3>
+        <ol>
+        {% for order in shipped_orders %}
+            <li>{{order.order_id}}
+            {{order.total}}
+            {{order.updated}}</li>
+        {% endfor %}
+        </ol>
+    </div>
+
+    <div class="col">
+        <h1>Paid (Total: ${{ paid_orders_data.total__sum }})</h1>
+        <ol>
+        {% for order in paid_orders %}
+            <li>{{order.order_id}}
+            {{order.total}}
+            {{order.updated}}</li>
+        {% endfor %}
+        </ol>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,13 +1,14 @@
 # from django.views import ListView
-from django.http import Http404
-from django.views.generic import ListView, DetailView
-from django.shortcuts import render, get_object_or_404
+from django.http import Http404, HttpResponse
+from django.views.generic import ListView, DetailView, View
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from analytics.mixins import ObjectViewedMixin
 from carts.models import Cart
 
-from .models import Product
+from .models import Product, ProductFile
 
 
 class ProductFeaturedListView(ListView):
@@ -163,3 +164,76 @@ def product_detail_view(request, pk=None, *args, **kwargs):
         'object': instance
     }
     return render(request, "products/detail.html", context)
+
+from wsgiref.util import FileWrapper
+from django.conf import settings
+import os
+from mimetypes import guess_type
+from orders.models import ProductPurchase
+
+class ProductDownloadView(View):
+    def get(self, request,*args, **kwargs):
+        slug = kwargs.get('slug')
+        pk = kwargs.get('pk')
+        downloads_qs = ProductFile.objects.filter(pk=pk,product__slug=slug)
+        if downloads_qs.count() != 1:
+            raise Http404("Download not found")
+        downloads_obj = downloads_qs.first()
+        can_download = False
+        user_ready = True
+        if downloads_obj.user_required:
+            if not request.user.is_authenticated:
+                user_ready = False
+        purchased_products = Product.objects.none()
+        if downloads_obj.free:
+            can_download = True
+            user_ready = True
+        else:
+            purchased_products = ProductPurchase.objects.product_by_request(request)
+            if downloads_obj.product in purchased_products:
+                can_download = True
+        if not can_download or not user_ready:
+            messages.error(request, "You do not have access to this item")
+            return redirect(downloads_obj.get_default_url())
+
+
+        # if  downloads_obj.free:
+        #     can_download = True
+
+        # else:
+        #     purchased_products = ProductPurchase.object.product_by_request(request)
+        #     if downloads_obj.product in purchased_products:
+        #         can_download=True
+
+        # if downloads_obj.user_required:
+        #     if request.user.is_authenticated:
+        #         can_download = True
+        #     else:
+        #         can_download = False
+
+        file_root = settings.PROTECTED_ROOT
+        filepath = downloads_obj.file.path
+        final_filepath = os.path.join(file_root,filepath)
+        with open(final_filepath,'rb') as f:
+            wraper = FileWrapper(f)
+            mimetype = "application/force-download"
+            gussed_mimetype = guess_type(filepath)[0]
+            if gussed_mimetype:
+                mimetype = gussed_mimetype
+            response = HttpResponse(wraper, content_type = mimetype)
+            response['Content-Disposition'] = "attachment;filename=%s" %(downloads_obj.name)
+            response["X-SendFile"] = str(downloads_obj.name)
+            return response
+        return redirect(downloads_obj.get_default_url())
+
+        # qs = Product.objects.filter(slug=slug)
+        # if qs.count() != 1:
+        #     raise Http404("Product not found")
+        # product_obj = qs.first()
+        # downloads_qs = product_obj.get_downloads().filter(pk=pk)
+        # if downloads_qs.count() != 1:
+        #     raise Http404("Download not found")
+        # downloads_obj = downloads_qs.first()
+
+        # response = HttpResponse(downloads_obj.get_download_url())
+        # return response

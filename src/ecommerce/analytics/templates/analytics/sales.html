@@ -2,17 +2,29 @@
 
 {% block content %}
 
-<div class="row">
+<div class="row my-5">
     <div class="col-12">
         <h1>Sales Data</h1>
     </div>
 </div>
 
 <div class="row">
-    <div class="col">
-        <h3>Recent (Total: ${{recent_orders_data.total__sum}})</h3>
+    <div class="col-4">
+        <h3>Today Sales</h3>
+        <hr/>
+        <h5>Recent (Total: ${{today.recent_data.total__sum}})</h5>
         <ol>
-        {% for order in recent_orders %}
+        {% for order in today.recent %}
+            <li>{{order.order_id}}
+            {{order.total}}
+            {{order.updated}}</li>
+        {% endfor %}
+        </ol>
+        <h3>This week´s Sales</h3>
+        <hr/>
+        <h5>Recent (Total: ${{this_week.recent_data.total__sum}})</h5>
+        <ol>
+        {% for order in this_week.recent %}
             <li>{{order.order_id}}
             {{order.total}}
             {{order.updated}}</li>
@@ -21,26 +33,24 @@
     </div>
 
     <div class="col">
-        <h3>Shipped (Total: ${{shipped_orders_data.total__sum}})</h3>
-        <ol>
-        {% for order in shipped_orders %}
-            <li>{{order.order_id}}
-            {{order.total}}
-            {{order.updated}}</li>
-        {% endfor %}
-        </ol>
-    </div>
-
-    <div class="col">
-        <h1>Paid (Total: ${{ paid_orders_data.total__sum }})</h1>
-        <ol>
-        {% for order in paid_orders %}
-            <li>{{order.order_id}}
-            {{order.total}}
-            {{order.updated}}</li>
-        {% endfor %}
-        </ol>
+        <canvas class="render-chart" id="thisWeekSales" data-type="week" width="400" height="400"></canvas>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-12">
+        <h1>Previous 4 weeks</h1>
+    </div>
+    <div class="col">
+        <h5>Orders Total: ${{last_four_week.recent_data.total__sum}}</h5>
+        <h5>Shipped {% if last_four_week.shipped_data.total__sum %}Total: ${{last_four_week.shipped_data.total__sum}}{% endif %}</h5>
+        <h5>Paid Total: ${{ last_four_week.paid_data.total__sum }}</h5>
+    </div>
+
+    <div class="col">
+        <canvas class="render-chart" id="fourWeekSales" data-type="4weeks" width="400" height="400"></canvas>
+    </div>
+</div>
+
 
 {% endblock %}

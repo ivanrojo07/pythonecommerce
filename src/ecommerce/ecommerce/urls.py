@@ -31,7 +31,7 @@ from orders.views import LibraryView
 
 from .views import home_page,about_page,contact_page#,login_page,register_page
 from django.views.generic import TemplateView, RedirectView
-from analytics.views import SalesView
+from analytics.views import SalesView, SalesAjaxView
 # from products.views import (
 #                     ProductListView, 
 #                     product_list_view, 
@@ -80,6 +80,8 @@ urlpatterns = [
     path('orders/',include('orders.urls', namespace="orders")),
     path('library/', LibraryView.as_view(), name="library"),
     path('analytics/sales/', SalesView.as_view(), name="sales"),
+    path('analytics/sales/data/', SalesAjaxView.as_view(), name="sales-data"),
+
 ]
 
 if settings.DEBUG:
